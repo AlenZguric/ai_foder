@@ -112,16 +112,8 @@ while True:
             cv2.putText(frame, f"{label} {confidence}", (x, y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
             
-            # Provjeri je li pronađen 'cell phone'
-            if label == "cell phone":
-                print("aeroplane phone detected! Landing...")
-                tello.flip_forward()
-                tello.flip_back()
-                tello.flip_left()
-                tello.flip_right()
-                #tello.streamoff()
-                #cv2.destroyAllWindows()
-                #exit()  # Prekini program
+        '''
+                '''
 
     # Prikaz rezultata
     cv2.imshow("Tello Object Detection", frame)

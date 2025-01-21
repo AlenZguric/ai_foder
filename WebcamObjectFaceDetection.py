@@ -1,10 +1,13 @@
 import face_recognition
 import cv2
 import numpy as np
+from datetime import datetime
 
 # Učitajte referentne slike za sve ukućane i enkodirajte ih
 known_face_encodings = []
 known_face_names = []
+
+podatci= []
 
 # Dodajte slike i imena
 images_and_names = [
@@ -12,7 +15,8 @@ images_and_names = [
     ("jasmina.jpg", "Jasmina"),
     ("ines.jpg", "Ines"),
     ("paula.jpg", "Paula"),
-    ("lucia.jpg", "Lucia")
+    ("lucia.jpg", "Lucia"),
+     ("tomo.jpg", "Tomo")
 ]
 
 for image_path, name in images_and_names:
@@ -61,6 +65,13 @@ while True:
         if True in matches:
             match_index = matches.index(True)
             name = known_face_names[match_index]
+            if name == "Tomo":
+                #vrijeme = datetime()
+                #print(f"Uočeno lice: {name} - {vrijeme}")
+                cv2.putText(frame, "Tomo je u blizzini",(left, top - 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2) 
+                podatci.append(name)
+                print(podatci)
+                
 
         # Nacrtaj okvir oko lica i ispiši ime
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)  # Crveni okvir
