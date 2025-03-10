@@ -16,14 +16,18 @@ images_and_names = [
     ("ines.jpg", "Ines"),
     ("paula.jpg", "Paula"),
     ("lucia.jpg", "Lucia"),
-     ("tomo.jpg", "Tomo")
+    ("tomo.jpg", "Tomo")
 ]
 
 for image_path, name in images_and_names:
     image = face_recognition.load_image_file(image_path)
-    encoding = face_recognition.face_encodings(image)[0]
-    known_face_encodings.append(encoding)
-    known_face_names.append(name)
+    encodings = face_recognition.face_encodings(image)
+    if encodings:
+        encoding = encodings[0]
+        known_face_encodings.append(encoding)
+        known_face_names.append(name)
+    else:
+        print(f"Warning: No faces found in {image_path}")
 
 # Pokrenite video stream s web kamere
 cap = cv2.VideoCapture(0)
@@ -65,18 +69,22 @@ while True:
         if True in matches:
             match_index = matches.index(True)
             name = known_face_names[match_index]
-            if name == "Tomo":
+            if name == "Alen":
+                cv2.rectangle(frame, (left, top), (right, bottom), (255, 0, 0), 2) 
                 #vrijeme = datetime()
                 #print(f"Uočeno lice: {name} - {vrijeme}")
-                cv2.putText(frame, "Tomo je u blizzini",(left, top - 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2) 
+                cv2.putText(frame, "Bok Alen",(left, top - 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2) 
                 podatci.append(name)
                 print(podatci)
+             
+         # Nacrtaj okvir oko lica i ispiši ime
+    cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)  # Crveni okvir
+    cv2.putText(frame, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)  # Crveni tekst
+   
+           
                 
 
-        # Nacrtaj okvir oko lica i ispiši ime
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)  # Crveni okvir
-        cv2.putText(frame, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)  # Crveni tekst
-
+       
     # Prikaz trenutnog frame-a
     cv2.imshow("Face Recognition Test", frame)
 
